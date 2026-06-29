@@ -1,0 +1,907 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>COACHING — Crecer compartiendo</title>
+<meta name="description" content="COACHING — Escuela de coaching. Crecer compartiendo. Comunidad, talleres y acompañamiento profesional.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#0A3D78;
+    --blue:#1E8FD9;
+    --blue-soft:#5FB1E8;
+    --ink:#13213A;
+    --gold:#D89A3C;
+    --bg:#F7F6F1;
+    --surface:#FFFFFF;
+    --line: rgba(10,61,120,0.12);
+    --maxw: 1180px;
+  }
+
+  *{margin:0;padding:0;box-sizing:border-box;}
+
+  html{scroll-behavior:smooth;}
+
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Inter', sans-serif;
+    line-height:1.6;
+    overflow-x:hidden;
+    position:relative;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    *{animation-duration:.001ms !important; transition-duration:.001ms !important;}
+  }
+
+  h1,h2,h3,.eyebrow,.btn,nav a{font-family:'Sora', sans-serif;}
+
+  /* ===== Marca de agua de fondo ===== */
+  .watermark{
+    position:fixed;
+    inset:0;
+    z-index:0;
+    pointer-events:none;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    opacity:0.05;
+  }
+  .watermark img{
+    width:min(70vw, 900px);
+  }
+
+  /* ===== Fotos flotantes distribuidas ===== */
+  .floating-photo{
+    position:absolute;
+    border-radius:50%;
+    overflow:hidden;
+    box-shadow:0 16px 36px -12px rgba(10,61,120,0.4);
+    border:4px solid #fff;
+    display:block;
+    cursor:pointer;
+    transition:transform .35s ease, box-shadow .35s ease;
+    z-index:3;
+  }
+  .floating-photo img{width:100%; height:100%; object-fit:cover; display:block;}
+  .floating-photo:hover{transform:scale(1.07) rotate(-2deg); box-shadow:0 22px 46px -10px rgba(10,61,120,0.5);}
+  .floating-photo .ig-badge{
+    position:absolute;
+    bottom:6px; right:6px;
+    width:22px; height:22px;
+    border-radius:50%;
+    background:#fff;
+    display:flex; align-items:center; justify-content:center;
+    box-shadow:0 2px 6px rgba(0,0,0,0.25);
+  }
+  .floating-photo .ig-badge svg{width:12px; height:12px; fill:var(--navy);}
+
+  .fp-hero{
+    width:96px; height:96px;
+    top:18%; left:8%;
+    animation:floatY 7s ease-in-out infinite;
+  }
+  .fp-hero2{
+    width:74px; height:74px;
+    top:24%; right:9%;
+    animation:floatY 8s ease-in-out infinite reverse;
+  }
+  @keyframes floatY{
+    0%,100%{transform:translateY(0);}
+    50%{transform:translateY(-14px);}
+  }
+  @media(max-width:760px){
+    .fp-hero, .fp-hero2{display:none;}
+  }
+
+  .fp-about{
+    width:120px; height:120px;
+    top:-30px; right:-20px;
+    border-width:5px;
+  }
+  .fp-cta{
+    width:88px; height:88px;
+    bottom:-24px; left:34px;
+  }
+  .fp-works{
+    width:80px; height:80px;
+    top:-28px; right:30px;
+  }
+  .fp-footer{
+    width:64px; height:64px;
+    position:relative;
+    margin:0 auto 18px;
+    border:3px solid #fff;
+  }
+
+  .page{position:relative; z-index:1;}
+
+  a{color:inherit; text-decoration:none;}
+  img{display:block; max-width:100%;}
+
+  .eyebrow{
+    text-transform:uppercase;
+    letter-spacing:.18em;
+    font-size:.72rem;
+    font-weight:600;
+    color:var(--blue);
+  }
+
+  section{
+    padding:clamp(64px, 10vw, 120px) 24px;
+  }
+
+  .wrap{max-width:var(--maxw); margin:0 auto;}
+
+  /* ===== Header / Hamburguesa ===== */
+  header{
+    position:fixed;
+    top:0; left:0; right:0;
+    z-index:50;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:18px 24px;
+    transition:background .3s ease, box-shadow .3s ease, padding .3s ease;
+  }
+  header.scrolled{
+    background:rgba(247,246,241,0.88);
+    backdrop-filter:blur(10px);
+    box-shadow:0 1px 0 var(--line);
+    padding:12px 24px;
+  }
+
+  .burger{
+    width:46px; height:46px;
+    border:none;
+    background:var(--surface);
+    border-radius:14px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:5px;
+    cursor:pointer;
+    box-shadow:0 4px 14px rgba(10,61,120,0.14);
+    transition:transform .25s ease;
+  }
+  .burger:hover{transform:translateY(-1px);}
+  .burger span{
+    width:20px; height:2.5px;
+    background:var(--navy);
+    border-radius:2px;
+    transition:transform .3s ease, opacity .3s ease;
+  }
+  .burger.open span:nth-child(1){transform:translateY(7.5px) rotate(45deg);}
+  .burger.open span:nth-child(2){opacity:0;}
+  .burger.open span:nth-child(3){transform:translateY(-7.5px) rotate(-45deg);}
+
+  .header-logo{
+    display:flex; align-items:center; gap:10px;
+    font-weight:700; font-size:1.05rem; color:var(--navy);
+    opacity:0; transform:translateY(-6px);
+    transition:opacity .3s ease, transform .3s ease;
+  }
+  header.scrolled .header-logo{opacity:1; transform:translateY(0);}
+  .header-logo .dot{width:10px; height:10px; border-radius:50%; background:var(--blue);}
+
+  .header-cta{
+    padding:11px 22px;
+    border-radius:999px;
+    background:var(--navy);
+    color:#fff;
+    font-weight:600;
+    font-size:.85rem;
+    letter-spacing:.02em;
+    box-shadow:0 6px 16px rgba(10,61,120,0.25);
+    transition:transform .25s ease, background .25s ease;
+  }
+  .header-cta:hover{transform:translateY(-1px); background:var(--blue);}
+
+  /* ===== Menú lateral ===== */
+  .menu-overlay{
+    position:fixed; inset:0;
+    background:rgba(10,30,60,0.35);
+    z-index:60;
+    opacity:0;
+    visibility:hidden;
+    transition:opacity .35s ease;
+  }
+  .menu-overlay.show{opacity:1; visibility:visible;}
+
+  .side-menu{
+    position:fixed;
+    top:0; left:0;
+    height:100%;
+    width:min(86vw, 380px);
+    background:var(--navy);
+    background-image:linear-gradient(165deg, var(--navy) 0%, #082c58 100%);
+    z-index:61;
+    transform:translateX(-104%);
+    transition:transform .4s cubic-bezier(.16,.84,.44,1);
+    padding:34px 30px;
+    display:flex;
+    flex-direction:column;
+  }
+  .side-menu.show{transform:translateX(0);}
+
+  .side-menu .menu-close{
+    align-self:flex-end;
+    width:38px; height:38px;
+    border-radius:10px;
+    background:rgba(255,255,255,0.1);
+    border:none;
+    color:#fff;
+    font-size:1.2rem;
+    cursor:pointer;
+    margin-bottom:30px;
+  }
+
+  .side-menu .menu-brand{
+    color:#fff;
+    font-size:1.4rem;
+    font-weight:800;
+    letter-spacing:.02em;
+    margin-bottom:6px;
+  }
+  .side-menu .menu-tagline{
+    color:rgba(255,255,255,0.6);
+    font-size:.82rem;
+    margin-bottom:36px;
+    font-style:italic;
+  }
+
+  .side-menu nav{display:flex; flex-direction:column; gap:6px;}
+  .side-menu nav a{
+    color:rgba(255,255,255,0.92);
+    font-size:1.18rem;
+    font-weight:600;
+    padding:13px 6px;
+    border-bottom:1px solid rgba(255,255,255,0.08);
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    transition:color .2s ease, padding-left .2s ease;
+  }
+  .side-menu nav a:hover{color:var(--blue-soft); padding-left:12px;}
+  .side-menu nav a span.num{
+    font-size:.75rem;
+    color:rgba(255,255,255,0.4);
+    font-weight:500;
+  }
+
+  .side-menu .menu-social{
+    margin-top:auto;
+    display:flex;
+    gap:12px;
+    padding-top:24px;
+  }
+  .side-menu .menu-social a{
+    width:42px; height:42px;
+    border-radius:50%;
+    background:rgba(255,255,255,0.1);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    transition:background .2s ease, transform .2s ease;
+  }
+  .side-menu .menu-social a:hover{background:var(--blue); transform:translateY(-2px);}
+  .side-menu .menu-social svg{width:19px; height:19px; fill:#fff;}
+
+  /* ===== Hero ===== */
+  .hero{
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding-top:120px;
+    position:relative;
+  }
+
+  .hero-rings{
+    position:absolute;
+    top:50%; left:50%;
+    width:1px; height:1px;
+  }
+  .ring{
+    position:absolute;
+    border:1.5px solid rgba(30,143,217,0.18);
+    border-radius:50%;
+    transform:translate(-50%,-50%);
+    animation:ringGrow 6s ease-out infinite;
+  }
+  .ring.r1{width:260px; height:260px; animation-delay:0s;}
+  .ring.r2{width:420px; height:420px; animation-delay:1.3s;}
+  .ring.r3{width:600px; height:600px; animation-delay:2.6s;}
+  @keyframes ringGrow{
+    0%{transform:translate(-50%,-50%) scale(.85); opacity:0;}
+    15%{opacity:1;}
+    100%{transform:translate(-50%,-50%) scale(1.08); opacity:0;}
+  }
+
+  .hero-inner{position:relative; z-index:2; max-width:640px;}
+  .hero-logo{width:min(46vw, 220px); margin:0 auto 14px;}
+  .hero-name{
+    font-size:clamp(2.1rem, 6vw, 3.3rem);
+    font-weight:800;
+    color:var(--navy);
+    letter-spacing:.01em;
+    margin-bottom:10px;
+  }
+  .hero-tagline{
+    font-family:'Sora', sans-serif;
+    font-style:italic;
+    font-weight:500;
+    font-size:clamp(1.05rem, 2.6vw, 1.35rem);
+    color:var(--blue);
+    margin-bottom:34px;
+  }
+  .hero-actions{
+    display:flex; gap:14px; justify-content:center; flex-wrap:wrap;
+  }
+
+  .btn{
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    padding:15px 30px;
+    border-radius:999px;
+    font-weight:600;
+    font-size:.95rem;
+    cursor:pointer;
+    border:none;
+    transition:transform .25s ease, box-shadow .25s ease, background .25s ease;
+  }
+  .btn-primary{
+    background:var(--navy);
+    color:#fff;
+    box-shadow:0 10px 24px rgba(10,61,120,0.28);
+  }
+  .btn-primary:hover{transform:translateY(-2px); background:var(--blue);}
+  .btn-outline{
+    background:transparent;
+    color:var(--navy);
+    border:1.6px solid var(--navy);
+  }
+  .btn-outline:hover{transform:translateY(-2px); background:var(--navy); color:#fff;}
+
+  .scroll-cue{
+    position:absolute;
+    bottom:28px; left:50%;
+    transform:translateX(-50%);
+    font-size:.7rem;
+    letter-spacing:.18em;
+    text-transform:uppercase;
+    color:var(--blue);
+    opacity:.7;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:8px;
+  }
+  .scroll-cue .line{width:1px; height:30px; background:var(--blue); animation:scrollPulse 1.8s ease-in-out infinite;}
+  @keyframes scrollPulse{0%,100%{opacity:.2;} 50%{opacity:1;}}
+
+  /* ===== Reveal on scroll ===== */
+  .reveal{opacity:0; transform:translateY(26px); transition:opacity .7s ease, transform .7s ease;}
+  .reveal.in{opacity:1; transform:translateY(0);}
+
+  /* ===== Sobre ===== */
+  .about{
+    background:var(--surface);
+    border-top:1px solid var(--line);
+    border-bottom:1px solid var(--line);
+  }
+  .about .wrap{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:60px;
+    align-items:center;
+  }
+  .about h2{
+    font-size:clamp(1.8rem,3.6vw,2.6rem);
+    color:var(--navy);
+    font-weight:800;
+    margin:10px 0 22px;
+    line-height:1.2;
+  }
+  .about p{color:#3c4a63; margin-bottom:16px; font-size:1.02rem;}
+  .about-emblem-wrap{position:relative; max-width:340px; margin:0 auto;}
+  .about-emblem{
+    position:relative;
+    aspect-ratio:1;
+    max-width:340px;
+    margin:0 auto;
+    border-radius:50%;
+    background:radial-gradient(circle at 32% 28%, #ffffff, #eef3f9 70%);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    box-shadow:0 30px 60px -20px rgba(10,61,120,0.35);
+  }
+  .about-emblem img{width:58%;}
+  .about-stats{
+    display:flex;
+    gap:26px;
+    margin-top:28px;
+    flex-wrap:wrap;
+  }
+  .stat{}
+  .stat b{display:block; font-size:1.7rem; color:var(--navy); font-family:'Sora',sans-serif;}
+  .stat span{font-size:.8rem; color:#5a6a85;}
+
+  @media(max-width:860px){
+    .about .wrap{grid-template-columns:1fr; gap:36px;}
+    .about-emblem{order:-1;}
+  }
+
+  /* ===== Comunidad / Galería ===== */
+  .community{position:relative;}
+  .community .head{text-align:center; max-width:620px; margin:0 auto 56px;}
+  .community h2{
+    font-size:clamp(1.8rem,3.6vw,2.6rem);
+    color:var(--navy);
+    font-weight:800;
+    margin:10px 0 16px;
+  }
+  .community p.lead{color:#3c4a63; font-size:1.02rem;}
+
+  .gallery{
+    display:grid;
+    grid-template-columns:repeat(6, 1fr);
+    grid-template-rows:auto auto;
+    gap:18px;
+    align-items:center;
+  }
+  .gal-item{
+    position:relative;
+    display:block;
+    border-radius:28px;
+    overflow:hidden;
+    box-shadow:0 18px 40px -16px rgba(10,61,120,0.32);
+  }
+  .gal-item img{width:100%; height:100%; object-fit:cover; transition:transform .6s ease;}
+  .gal-item:hover img{transform:scale(1.06);}
+  .gal-item .tag{
+    position:absolute; bottom:14px; left:16px;
+    background:rgba(10,30,60,0.55);
+    color:#fff;
+    font-size:.72rem;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    padding:7px 14px;
+    border-radius:999px;
+    backdrop-filter:blur(4px);
+  }
+
+  .gal-1{grid-column:1 / 4; grid-row:1; aspect-ratio:16/11; transform:translateY(8px);}
+  .gal-2{grid-column:4 / 7; grid-row:1; aspect-ratio:16/11; transform:translateY(-10px);}
+  .gal-3{grid-column:2 / 6; grid-row:2; aspect-ratio:16/9; margin-top:6px;}
+
+  @media(max-width:860px){
+    .gallery{grid-template-columns:1fr; grid-template-rows:auto;}
+    .gal-1,.gal-2,.gal-3{grid-column:1; grid-row:auto; transform:none; aspect-ratio:4/3;}
+  }
+
+  /* ===== CTA banda ===== */
+  .cta-band{
+    background:linear-gradient(120deg, var(--navy), #0d4f9e);
+    border-radius:34px;
+    margin:0 auto;
+    max-width:var(--maxw);
+    padding:clamp(40px,7vw,70px);
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:30px;
+    flex-wrap:wrap;
+    position:relative;
+  }
+  .cta-decor{
+    position:absolute;
+    inset:0;
+    border-radius:34px;
+    overflow:hidden;
+    pointer-events:none;
+  }
+  .cta-decor::after{
+    content:"";
+    position:absolute;
+    width:380px; height:380px;
+    border-radius:50%;
+    border:1.5px solid rgba(255,255,255,0.12);
+    right:-90px; top:-120px;
+  }
+  .cta-band h3{
+    color:#fff;
+    font-size:clamp(1.5rem,3vw,2.1rem);
+    font-weight:800;
+    max-width:480px;
+    position:relative; z-index:1;
+  }
+  .cta-band p{color:rgba(255,255,255,0.75); margin-top:10px; max-width:440px; position:relative; z-index:1;}
+  .cta-band .btn-primary{background:#fff; color:var(--navy); position:relative; z-index:1;}
+  .cta-band .btn-primary:hover{background:var(--gold); color:#fff;}
+
+  /* ===== Trabajos prácticos ===== */
+  .works .head{text-align:center; max-width:600px; margin:0 auto 50px;}
+  .works h2{font-size:clamp(1.8rem,3.6vw,2.6rem); color:var(--navy); font-weight:800; margin:10px 0 16px;}
+  .works p.lead{color:#3c4a63;}
+
+  .work-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:26px;
+    max-width:900px;
+    margin:0 auto;
+  }
+  .work-card{
+    background:var(--surface);
+    border:1px solid var(--line);
+    border-radius:24px;
+    padding:34px 30px;
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+    transition:transform .3s ease, box-shadow .3s ease;
+    position:relative;
+  }
+  .work-card:hover{transform:translateY(-6px); box-shadow:0 24px 50px -20px rgba(10,61,120,0.3);}
+  .work-card .work-num{
+    font-family:'Sora',sans-serif;
+    font-size:.78rem;
+    font-weight:700;
+    color:var(--blue);
+    letter-spacing:.1em;
+  }
+  .work-card h4{font-size:1.35rem; color:var(--navy); font-weight:800;}
+  .work-card p{color:#5a6a85; font-size:.92rem;}
+  .work-card .work-btn{
+    margin-top:auto;
+    align-self:flex-start;
+    background:var(--navy);
+    color:#fff;
+    padding:12px 24px;
+    border-radius:999px;
+    font-size:.85rem;
+    font-weight:600;
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    transition:background .25s ease, transform .25s ease;
+  }
+  .work-card .work-btn:hover{background:var(--blue); transform:translateX(3px);}
+  .work-card .ring-deco{
+    position:absolute;
+    width:140px; height:140px;
+    border-radius:50%;
+    border:1.5px solid var(--line);
+    right:-40px; bottom:-50px;
+  }
+
+  @media(max-width:700px){.work-grid{grid-template-columns:1fr;}}
+
+  /* ===== Contacto ===== */
+  .contact{
+    background:var(--surface);
+    border-top:1px solid var(--line);
+  }
+  .contact .wrap{text-align:center;}
+  .contact h2{font-size:clamp(1.8rem,3.6vw,2.6rem); color:var(--navy); font-weight:800; margin:10px 0 14px;}
+  .contact p.lead{color:#3c4a63; max-width:520px; margin:0 auto 42px;}
+
+  .contact-grid{
+    display:flex;
+    justify-content:center;
+    gap:22px;
+    flex-wrap:wrap;
+  }
+  .contact-card{
+    background:var(--bg);
+    border:1px solid var(--line);
+    border-radius:22px;
+    padding:30px 32px;
+    width:230px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:14px;
+    transition:transform .3s ease, box-shadow .3s ease, background .3s ease;
+  }
+  .contact-card:hover{transform:translateY(-6px); box-shadow:0 20px 40px -18px rgba(10,61,120,0.25); background:#fff;}
+  .contact-card .icon-circ{
+    width:54px; height:54px;
+    border-radius:50%;
+    background:var(--navy);
+    display:flex; align-items:center; justify-content:center;
+  }
+  .contact-card .icon-circ svg{width:24px; height:24px; fill:#fff;}
+  .contact-card strong{color:var(--navy); font-family:'Sora',sans-serif; font-size:1rem;}
+  .contact-card span{color:#5a6a85; font-size:.82rem;}
+
+  footer{
+    text-align:center;
+    padding:40px 24px 50px;
+    position:relative;
+  }
+  footer .foot-logo{width:60px; margin:0 auto 14px; opacity:.92;}
+  .foot-photos{
+    display:flex;
+    justify-content:center;
+    gap:10px;
+    margin-bottom:22px;
+  }
+  .foot-photos a{
+    width:50px; height:50px;
+    border-radius:50%;
+    overflow:hidden;
+    display:block;
+    border:2.5px solid var(--surface);
+    box-shadow:0 6px 16px rgba(10,61,120,0.2);
+    transition:transform .25s ease;
+  }
+  .foot-photos a:hover{transform:translateY(-3px) scale(1.06);}
+  .foot-photos img{width:100%; height:100%; object-fit:cover;}
+  footer p{color:#5a6a85; font-size:.82rem;}
+  footer .foot-brand{font-family:'Sora',sans-serif; font-weight:700; color:var(--navy); margin-bottom:4px;}
+
+  ::selection{background:var(--blue); color:#fff;}
+</style>
+<noscript>
+<style>.reveal{opacity:1 !important; transform:none !important;} .side-menu{display:none;}</style>
+</noscript>
+</head>
+<body>
+
+<div class="watermark"><img src="images/logo.png" alt=""></div>
+
+<div class="page">
+
+  <header id="header">
+    <button class="burger" id="burgerBtn" aria-label="Abrir menú" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <div class="header-logo"><span class="dot"></span>COACHING</div>
+    <a class="header-cta" href="https://wa.link/8jpzyg" target="_blank" rel="noopener">Quiero saber más</a>
+  </header>
+
+  <div class="menu-overlay" id="menuOverlay"></div>
+  <aside class="side-menu" id="sideMenu">
+    <button class="menu-close" id="menuClose" aria-label="Cerrar menú">&times;</button>
+    <div class="menu-brand">COACHING</div>
+    <div class="menu-tagline">"Crecer compartiendo"</div>
+    <nav>
+      <a href="#inicio" class="nav-link"><span>Inicio</span><span class="num">01</span></a>
+      <a href="#sobre" class="nav-link"><span>Sobre Coaching</span><span class="num">02</span></a>
+      <a href="#comunidad" class="nav-link"><span>Comunidad</span><span class="num">03</span></a>
+      <a href="#trabajos" class="nav-link"><span>Trabajos prácticos</span><span class="num">04</span></a>
+      <a href="#contacto" class="nav-link"><span>Contacto</span><span class="num">05</span></a>
+    </nav>
+    <div class="menu-social">
+      <a href="https://www.instagram.com/coaching_ont?igsh=MTdmaHQzc2hyN282NQ==" target="_blank" rel="noopener" aria-label="Instagram">
+        <svg viewBox="0 0 24 24"><path d="M12 2.2c3.2 0 3.6 0 4.85.07 1.17.06 2.02.25 2.5.43.65.25 1.12.55 1.6 1.03.48.48.79.96 1.03 1.6.18.48.37 1.33.43 2.5.06 1.25.07 1.65.07 4.85s0 3.6-.07 4.85c-.06 1.17-.25 2.02-.43 2.5-.25.65-.55 1.12-1.03 1.6-.48.48-.96.79-1.6 1.03-.48.18-1.33.37-2.5.43-1.25.06-1.65.07-4.85.07s-3.6 0-4.85-.07c-1.17-.06-2.02-.25-2.5-.43-.65-.25-1.12-.55-1.6-1.03-.48-.48-.79-.96-1.03-1.6-.18-.48-.37-1.33-.43-2.5C2.21 15.6 2.2 15.2 2.2 12s0-3.6.07-4.85c.06-1.17.25-2.02.43-2.5.25-.65.55-1.12 1.03-1.6.48-.48.96-.79 1.6-1.03.48-.18 1.33-.37 2.5-.43C8.4 2.21 8.8 2.2 12 2.2zm0 1.8c-3.15 0-3.52 0-4.74.07-.96.05-1.48.2-1.83.34-.46.18-.79.39-1.13.74-.34.34-.55.67-.74 1.13-.14.35-.29.87-.34 1.83C3.15 8.48 3.15 8.85 3.15 12s0 3.52.07 4.74c.05.96.2 1.48.34 1.83.18.46.39.79.74 1.13.34.34.67.55 1.13.74.35.14.87.29 1.83.34 1.22.06 1.59.07 4.74.07s3.52 0 4.74-.07c.96-.05 1.48-.2 1.83-.34.46-.18.79-.39 1.13-.74.34-.34.55-.67.74-1.13.14-.35.29-.87.34-1.83.06-1.22.07-1.59.07-4.74s0-3.52-.07-4.74c-.05-.96-.2-1.48-.34-1.83-.18-.46-.39-.79-.74-1.13-.34-.34-.67-.55-1.13-.74-.35-.14-.87-.29-1.83-.34C15.52 4 15.15 4 12 4zm0 3.4a4.6 4.6 0 1 1 0 9.2 4.6 4.6 0 0 1 0-9.2zm0 1.8a2.8 2.8 0 1 0 0 5.6 2.8 2.8 0 0 0 0-5.6zm5.85-2.95a1.1 1.1 0 1 1-2.2 0 1.1 1.1 0 0 1 2.2 0z"/></svg>
+      </a>
+      <a href="https://www.facebook.com/share/1CuHp9kcXS/" target="_blank" rel="noopener" aria-label="Facebook">
+        <svg viewBox="0 0 24 24"><path d="M22 12.06C22 6.5 17.52 2 12 2S2 6.5 2 12.06c0 5 3.66 9.15 8.44 9.94v-7.03H7.9v-2.9h2.54V9.7c0-2.5 1.49-3.89 3.78-3.89 1.1 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.78-1.63 1.57v1.89h2.78l-.44 2.9h-2.34V22c4.78-.8 8.43-4.95 8.43-9.94z"/></svg>
+      </a>
+      <a href="https://wa.link/8jpzyg" target="_blank" rel="noopener" aria-label="WhatsApp">
+        <svg viewBox="0 0 24 24"><path d="M12.02 2C6.5 2 2 6.48 2 12c0 1.85.5 3.58 1.38 5.08L2 22l5.07-1.33A9.96 9.96 0 0 0 12.02 22C17.54 22 22 17.52 22 12S17.54 2 12.02 2zm0 18.07c-1.63 0-3.15-.45-4.46-1.24l-.32-.19-3.01.79.8-2.93-.21-.32a8.07 8.07 0 0 1-1.26-4.18c0-4.48 3.65-8.13 8.13-8.13s8.13 3.65 8.13 8.13-3.65 8.07-8.13 8.07zm4.46-6.08c-.24-.12-1.43-.7-1.65-.78-.22-.08-.38-.12-.55.12-.16.24-.62.78-.76.94-.14.16-.28.18-.52.06-.24-.12-1.01-.37-1.92-1.18-.71-.63-1.19-1.41-1.33-1.65-.14-.24-.01-.37.12-.5.12-.12.27-.31.4-.47.13-.16.18-.27.27-.45.09-.18.04-.33-.04-.45-.08-.12-.55-1.32-.76-1.81-.2-.48-.4-.41-.55-.42-.14-.01-.31-.01-.47-.01-.16 0-.42.06-.64.31-.22.24-.85.83-.85 2.02 0 1.19.86 2.34.98 2.5.12.16 1.66 2.55 4.04 3.47 2.38.92 2.38.62 2.81.58.43-.04 1.43-.58 1.63-1.15.2-.57.2-1.05.14-1.15-.06-.1-.22-.16-.46-.28z"/></svg>
+      </a>
+    </div>
+  </aside>
+
+  <!-- ===== HERO ===== -->
+  <section class="hero" id="inicio">
+    <div class="hero-rings">
+      <span class="ring r1"></span><span class="ring r2"></span><span class="ring r3"></span>
+    </div>
+
+    <a class="floating-photo fp-hero" href="https://www.instagram.com/coaching_ont?igsh=MTdmaHQzc2hyN282NQ==" target="_blank" rel="noopener" aria-label="Ver en Instagram">
+      <img src="images/photo1.jpg" alt="Alumnos de COACHING">
+      <span class="ig-badge"><svg viewBox="0 0 24 24"><path d="M12 2.2c3.2 0 3.6 0 4.85.07 1.17.06 2.02.25 2.5.43.65.25 1.12.55 1.6 1.03.48.48.79.96 1.03 1.6.18.48.37 1.33.43 2.5.06 1.25.07 1.65.07 4.85s0 3.6-.07 4.85c-.06 1.17-.25 2.02-.43 2.5-.25.65-.55 1.12-1.03 1.6-.48.48-.96.79-1.6 1.03-.48.18-1.33.37-2.5.43-1.25.06-1.65.07-4.85.07s-3.6 0-4.85-.07c-1.17-.06-2.02-.25-2.5-.43-.65-.25-1.12-.55-1.6-1.03-.48-.48-.79-.96-1.03-1.6-.18-.48-.37-1.33-.43-2.5C2.21 15.6 2.2 15.2 2.2 12s0-3.6.07-4.85c.06-1.17.25-2.02.43-2.5.25-.65.55-1.12 1.03-1.6.48-.48.96-.79 1.6-1.03.48-.18 1.33-.37 2.5-.43C8.4 2.21 8.8 2.2 12 2.2zm0 3.4a4.6 4.6 0 1 1 0 9.2 4.6 4.6 0 0 1 0-9.2zm0 1.8a2.8 2.8 0 1 0 0 5.6 2.8 2.8 0 0 0 0-5.6z"/></svg></span>
+    </a>
+    <a class="floating-photo fp-hero2" href="https://www.instagram.com/coaching_ont?igsh=MTdmaHQzc2hyN282NQ==" target="_blank" rel="noopener" aria-label="Ver en Instagram">
+      <img src="images/photo3.jpg" alt="Alumnos de COACHING">
+      <span class="ig-badge"><svg viewBox="0 0 24 24"><path d="M12 2.2c3.2 0 3.6 0 4.85.07 1.17.06 2.02.25 2.5.43.65.25 1.12.55 1.6 1.03.48.48.79.96 1.03 1.6.18.48.37 1.33.43 2.5.06 1.25.07 1.65.07 4.85s0 3.6-.07 4.85c-.06 1.17-.25 2.02-.43 2.5-.25.65-.55 1.12-1.03 1.6-.48.48-.96.79-1.6 1.03-.48.18-1.33.37-2.5.43-1.25.06-1.65.07-4.85.07s-3.6 0-4.85-.07c-1.17-.06-2.02-.25-2.5-.43-.65-.25-1.12-.55-1.6-1.03-.48-.48-.79-.96-1.03-1.6-.18-.48-.37-1.33-.43-2.5C2.21 15.6 2.2 15.2 2.2 12s0-3.6.07-4.85c.06-1.17.25-2.02.43-2.5.25-.65.55-1.12 1.03-1.6.48-.48.96-.79 1.6-1.03.48-.18 1.33-.37 2.5-.43C8.4 2.21 8.8 2.2 12 2.2zm0 3.4a4.6 4.6 0 1 1 0 9.2 4.6 4.6 0 0 1 0-9.2zm0 1.8a2.8 2.8 0 1 0 0 5.6 2.8 2.8 0 0 0 0-5.6z"/></svg></span>
+    </a>
+
+    <div class="hero-inner">
+      <img class="hero-logo" src="images/logo.png" alt="Logo COACHING">
+      <h1 class="hero-name">COACHING</h1>
+      <p class="hero-tagline">"Crecer compartiendo"</p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="https://wa.link/8jpzyg" target="_blank" rel="noopener">Quiero saber más</a>
+        <a class="btn btn-outline" href="#comunidad">Ver la comunidad</a>
+      </div>
+    </div>
+    <div class="scroll-cue"><span>Desplazate</span><span class="line"></span></div>
+  </section>
+
+  <!-- ===== SOBRE ===== -->
+  <section class="about" id="sobre">
+    <div class="wrap">
+      <div class="reveal">
+        <span class="eyebrow">Sobre coaching</span>
+        <h2>Un espacio para crecer, acompañados.</h2>
+        <p>COACHING es una escuela y comunidad de formación pensada para quienes buscan desarrollar herramientas reales de liderazgo, comunicación y crecimiento personal — en encuentros presenciales, dinámicos y profundamente humanos.</p>
+        <p>Cada clase combina teoría, práctica y vínculo: se trabaja en círculo, se escucha, se comparte. Por eso el lema no es una frase de cierre, es el método: <strong>crecer compartiendo</strong>.</p>
+        <div class="about-stats">
+          <div class="stat"><b>+30</b><span>alumnos activos</span></div>
+          <div class="stat"><b>100%</b><span>presencial y en comunidad</span></div>
+          <div class="stat"><b>2</b><span>trabajos prácticos vigentes</span></div>
+        </div>
+      </div>
+      <div class="about-emblem-wrap reveal">
+        <div class="about-emblem">
+          <img src="images/logo.png" alt="Logo COACHING">
+        </div>
+        <a class="floating-photo fp-about" href="https://www.instagram.com/coaching_ont?igsh=MTdmaHQzc2hyN282NQ==" target="_blank" rel="noopener" aria-label="Ver en Instagram">
+          <img src="images/photo2.jpg" alt="Alumnos de COACHING">
+          <span class="ig-badge"><svg viewBox="0 0 24 24"><path d="M12 2.2c3.2 0 3.6 0 4.85.07 1.17.06 2.02.25 2.5.43.65.25 1.12.55 1.6 1.03.48.48.79.96 1.03 1.6.18.48.37 1.33.43 2.5.06 1.25.07 1.65.07 4.85s0 3.6-.07 4.85c-.06 1.17-.25 2.02-.43 2.5-.25.65-.55 1.12-1.03 1.6-.48.48-.96.79-1.6 1.03-.48.18-1.33.37-2.5.43-1.25.06-1.65.07-4.85.07s-3.6 0-4.85-.07c-1.17-.06-2.02-.25-2.5-.43-.65-.25-1.12-.55-1.6-1.03-.48-.48-.79-.96-1.03-1.6-.18-.48-.37-1.33-.43-2.5C2.21 15.6 2.2 15.2 2.2 12s0-3.6.07-4.85c.06-1.17.25-2.02.43-2.5.25-.65.55-1.12 1.03-1.6.48-.48.96-.79 1.6-1.03.48-.18 1.33-.37 2.5-.43C8.4 2.21 8.8 2.2 12 2.2zm0 3.4a4.6 4.6 0 1 1 0 9.2 4.6 4.6 0 0 1 0-9.2zm0 1.8a2.8 2.8 0 1 0 0 5.6 2.8 2.8 0 0 0 0-5.6z"/></svg></span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== COMUNIDAD ===== -->
+  <section class="community" id="comunidad">
+    <div class="wrap">
+      <div class="head reveal">
+        <span class="eyebrow">Comunidad</span>
+        <h2>Así se vive Coaching.</h2>
+        <p class="lead">Encuentros, dinámicas y mucho intercambio. Estas son escenas reales de nuestras jornadas de formación.</p>
+      </div>
+      <div class="gallery reveal">
+        <a class="gal-item gal-1" href="https://www.instagram.com/coaching_ont?igsh=MTdmaHQzc2hyN282NQ==" target="_blank" rel="noopener">
+          <img src="images/photo1.jpg" alt="Encuentro grupal de la comunidad COACHING">
+          <span class="tag">Encuentro grupal</span>
+        </a>
+        <a class="gal-item gal-2" href="https://www.instagram.com/coaching_ont?igsh=MTdmaHQzc2hyN282NQ==" target="_blank" rel="noopener">
+          <img src="images/photo2.jpg" alt="Dinámica de coaching en ronda">
+          <span class="tag">Dinámica en ronda</span>
+        </a>
+        <a class="gal-item gal-3" href="https://www.instagram.com/coaching_ont?igsh=MTdmaHQzc2hyN282NQ==" target="_blank" rel="noopener">
+          <img src="images/photo3.jpg" alt="Club de coaching compartiendo una mesa">
+          <span class="tag">Club Coaching</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CTA ===== -->
+  <section style="padding-top:0;">
+    <div class="cta-band reveal">
+      <div class="cta-decor"></div>
+      <a class="floating-photo fp-cta" href="https://www.instagram.com/coaching_ont?igsh=MTdmaHQzc2hyN282NQ==" target="_blank" rel="noopener" aria-label="Ver en Instagram">
+        <img src="images/photo1.jpg" alt="Alumnos de COACHING">
+        <span class="ig-badge"><svg viewBox="0 0 24 24"><path d="M12 2.2c3.2 0 3.6 0 4.85.07 1.17.06 2.02.25 2.5.43.65.25 1.12.55 1.6 1.03.48.48.79.96 1.03 1.6.18.48.37 1.33.43 2.5.06 1.25.07 1.65.07 4.85s0 3.6-.07 4.85c-.06 1.17-.25 2.02-.43 2.5-.25.65-.55 1.12-1.03 1.6-.48.48-.96.79-1.6 1.03-.48.18-1.33.37-2.5.43-1.25.06-1.65.07-4.85.07s-3.6 0-4.85-.07c-1.17-.06-2.02-.25-2.5-.43-.65-.25-1.12-.55-1.6-1.03-.48-.48-.79-.96-1.03-1.6-.18-.48-.37-1.33-.43-2.5C2.21 15.6 2.2 15.2 2.2 12s0-3.6.07-4.85c.06-1.17.25-2.02.43-2.5.25-.65.55-1.12 1.03-1.6.48-.48.96-.79 1.6-1.03.48-.18 1.33-.37 2.5-.43C8.4 2.21 8.8 2.2 12 2.2zm0 3.4a4.6 4.6 0 1 1 0 9.2 4.6 4.6 0 0 1 0-9.2zm0 1.8a2.8 2.8 0 1 0 0 5.6 2.8 2.8 0 0 0 0-5.6z"/></svg></span>
+      </a>
+      <div>
+        <h3>¿Querés formar parte de la próxima cohorte?</h3>
+        <p>Escribinos por WhatsApp y te contamos cómo sumarte a los próximos encuentros.</p>
+      </div>
+      <a class="btn btn-primary" href="https://wa.link/8jpzyg" target="_blank" rel="noopener">Quiero saber más</a>
+    </div>
+  </section>
+
+  <!-- ===== TRABAJOS PRÁCTICOS ===== -->
+  <section class="works" id="trabajos">
+    <div class="wrap">
+      <div class="head reveal">
+        <span class="eyebrow">Para alumnos</span>
+        <h2>Últimos 2 trabajos prácticos</h2>
+        <p class="lead">Accedé directamente a la consigna de cada tema en Google Classroom.</p>
+      </div>
+      <div class="work-grid">
+        <div class="work-card reveal">
+          <span class="ring-deco"></span>
+          <a class="floating-photo fp-works" href="https://www.instagram.com/coaching_ont?igsh=MTdmaHQzc2hyN282NQ==" target="_blank" rel="noopener" aria-label="Ver en Instagram">
+            <img src="images/photo2.jpg" alt="Alumnos de COACHING">
+            <span class="ig-badge"><svg viewBox="0 0 24 24"><path d="M12 2.2c3.2 0 3.6 0 4.85.07 1.17.06 2.02.25 2.5.43.65.25 1.12.55 1.6 1.03.48.48.79.96 1.03 1.6.18.48.37 1.33.43 2.5.06 1.25.07 1.65.07 4.85s0 3.6-.07 4.85c-.06 1.17-.25 2.02-.43 2.5-.25.65-.55 1.12-1.03 1.6-.48.48-.96.79-1.6 1.03-.48.18-1.33.37-2.5.43-1.25.06-1.65.07-4.85.07s-3.6 0-4.85-.07c-1.17-.06-2.02-.25-2.5-.43-.65-.25-1.12-.55-1.6-1.03-.48-.48-.79-.96-1.03-1.6-.18-.48-.37-1.33-.43-2.5C2.21 15.6 2.2 15.2 2.2 12s0-3.6.07-4.85c.06-1.17.25-2.02.43-2.5.25-.65.55-1.12 1.03-1.6.48-.48.96-.79 1.6-1.03.48-.18 1.33-.37 2.5-.43C8.4 2.21 8.8 2.2 12 2.2zm0 3.4a4.6 4.6 0 1 1 0 9.2 4.6 4.6 0 0 1 0-9.2zm0 1.8a2.8 2.8 0 1 0 0 5.6 2.8 2.8 0 0 0 0-5.6z"/></svg></span>
+          </a>
+          <span class="work-num">TEMA 01</span>
+          <h4>Tema 1</h4>
+          <p>Consigna y materiales del primer trabajo práctico, disponible en el Classroom del curso.</p>
+          <a class="work-btn" href="https://classroom.google.com/c/ODE5MDg3NjkxMDg2/a/Nzk4MzM3NTU3NjEw/details" target="_blank" rel="noopener">Abrir Tema 1 →</a>
+        </div>
+        <div class="work-card reveal">
+          <span class="ring-deco"></span>
+          <a class="floating-photo fp-works" href="https://www.instagram.com/coaching_ont?igsh=MTdmaHQzc2hyN282NQ==" target="_blank" rel="noopener" aria-label="Ver en Instagram">
+            <img src="images/photo3.jpg" alt="Alumnos de COACHING">
+            <span class="ig-badge"><svg viewBox="0 0 24 24"><path d="M12 2.2c3.2 0 3.6 0 4.85.07 1.17.06 2.02.25 2.5.43.65.25 1.12.55 1.6 1.03.48.48.79.96 1.03 1.6.18.48.37 1.33.43 2.5.06 1.25.07 1.65.07 4.85s0 3.6-.07 4.85c-.06 1.17-.25 2.02-.43 2.5-.25.65-.55 1.12-1.03 1.6-.48.48-.96.79-1.6 1.03-.48.18-1.33.37-2.5.43-1.25.06-1.65.07-4.85.07s-3.6 0-4.85-.07c-1.17-.06-2.02-.25-2.5-.43-.65-.25-1.12-.55-1.6-1.03-.48-.48-.79-.96-1.03-1.6-.18-.48-.37-1.33-.43-2.5C2.21 15.6 2.2 15.2 2.2 12s0-3.6.07-4.85c.06-1.17.25-2.02.43-2.5.25-.65.55-1.12 1.03-1.6.48-.48.96-.79 1.6-1.03.48-.18 1.33-.37 2.5-.43C8.4 2.21 8.8 2.2 12 2.2zm0 3.4a4.6 4.6 0 1 1 0 9.2 4.6 4.6 0 0 1 0-9.2zm0 1.8a2.8 2.8 0 1 0 0 5.6 2.8 2.8 0 0 0 0-5.6z"/></svg></span>
+          </a>
+          <span class="work-num">TEMA 02</span>
+          <h4>Tema 2</h4>
+          <p>Consigna y materiales del segundo trabajo práctico, disponible en el Classroom del curso.</p>
+          <a class="work-btn" href="https://classroom.google.com/c/ODE5MDg3NjkxMDg2/a/ODY4NTcyOTE0NjM0/details" target="_blank" rel="noopener">Abrir Tema 2 →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CONTACTO ===== -->
+  <section class="contact" id="contacto">
+    <div class="wrap">
+      <span class="eyebrow">Contacto</span>
+      <h2>Hablemos.</h2>
+      <p class="lead">Seguinos en redes o escribinos directo. Te respondemos a la brevedad.</p>
+      <div class="contact-grid reveal">
+        <a class="contact-card" href="https://wa.link/8jpzyg" target="_blank" rel="noopener">
+          <span class="icon-circ"><svg viewBox="0 0 24 24"><path d="M12.02 2C6.5 2 2 6.48 2 12c0 1.85.5 3.58 1.38 5.08L2 22l5.07-1.33A9.96 9.96 0 0 0 12.02 22C17.54 22 22 17.52 22 12S17.54 2 12.02 2zm0 18.07c-1.63 0-3.15-.45-4.46-1.24l-.32-.19-3.01.79.8-2.93-.21-.32a8.07 8.07 0 0 1-1.26-4.18c0-4.48 3.65-8.13 8.13-8.13s8.13 3.65 8.13 8.13-3.65 8.07-8.13 8.07z"/></svg></span>
+          <strong>WhatsApp</strong>
+          <span>Escribinos directo</span>
+        </a>
+        <a class="contact-card" href="https://www.instagram.com/coaching_ont?igsh=MTdmaHQzc2hyN282NQ==" target="_blank" rel="noopener">
+          <span class="icon-circ"><svg viewBox="0 0 24 24"><path d="M12 2.2c3.2 0 3.6 0 4.85.07 1.17.06 2.02.25 2.5.43.65.25 1.12.55 1.6 1.03.48.48.79.96 1.03 1.6.18.48.37 1.33.43 2.5.06 1.25.07 1.65.07 4.85s0 3.6-.07 4.85c-.06 1.17-.25 2.02-.43 2.5-.25.65-.55 1.12-1.03 1.6-.48.48-.96.79-1.6 1.03-.48.18-1.33.37-2.5.43-1.25.06-1.65.07-4.85.07s-3.6 0-4.85-.07c-1.17-.06-2.02-.25-2.5-.43-.65-.25-1.12-.55-1.6-1.03-.48-.48-.79-.96-1.03-1.6-.18-.48-.37-1.33-.43-2.5C2.21 15.6 2.2 15.2 2.2 12s0-3.6.07-4.85c.06-1.17.25-2.02.43-2.5.25-.65.55-1.12 1.03-1.6.48-.48.96-.79 1.6-1.03.48-.18 1.33-.37 2.5-.43C8.4 2.21 8.8 2.2 12 2.2z"/></svg></span>
+          <strong>Instagram</strong>
+          <span>@coaching_ont</span>
+        </a>
+        <a class="contact-card" href="https://www.facebook.com/share/1CuHp9kcXS/" target="_blank" rel="noopener">
+          <span class="icon-circ"><svg viewBox="0 0 24 24"><path d="M22 12.06C22 6.5 17.52 2 12 2S2 6.5 2 12.06c0 5 3.66 9.15 8.44 9.94v-7.03H7.9v-2.9h2.54V9.7c0-2.5 1.49-3.89 3.78-3.89 1.1 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.78-1.63 1.57v1.89h2.78l-.44 2.9h-2.34V22c4.78-.8 8.43-4.95 8.43-9.94z"/></svg></span>
+          <strong>Facebook</strong>
+          <span>COACHING</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="foot-photos">
+      <a href="https://www.instagram.com/coaching_ont?igsh=MTdmaHQzc2hyN282NQ==" target="_blank" rel="noopener" aria-label="Ver en Instagram"><img src="images/photo1.jpg" alt="Alumnos COACHING"></a>
+      <a href="https://www.instagram.com/coaching_ont?igsh=MTdmaHQzc2hyN282NQ==" target="_blank" rel="noopener" aria-label="Ver en Instagram"><img src="images/photo2.jpg" alt="Alumnos COACHING"></a>
+      <a href="https://www.instagram.com/coaching_ont?igsh=MTdmaHQzc2hyN282NQ==" target="_blank" rel="noopener" aria-label="Ver en Instagram"><img src="images/photo3.jpg" alt="Alumnos COACHING"></a>
+    </div>
+    <img class="foot-logo" src="images/logo.png" alt="Logo COACHING">
+    <div class="foot-brand">COACHING</div>
+    <p>"Crecer compartiendo" · © 2026 Todos los derechos reservados</p>
+  </footer>
+
+</div>
+
+<script>
+  const burgerBtn = document.getElementById('burgerBtn');
+  const sideMenu = document.getElementById('sideMenu');
+  const menuOverlay = document.getElementById('menuOverlay');
+  const menuClose = document.getElementById('menuClose');
+
+  function openMenu(){
+    sideMenu.classList.add('show');
+    menuOverlay.classList.add('show');
+    burgerBtn.classList.add('open');
+    burgerBtn.setAttribute('aria-expanded','true');
+  }
+  function closeMenu(){
+    sideMenu.classList.remove('show');
+    menuOverlay.classList.remove('show');
+    burgerBtn.classList.remove('open');
+    burgerBtn.setAttribute('aria-expanded','false');
+  }
+  burgerBtn.addEventListener('click', () => {
+    sideMenu.classList.contains('show') ? closeMenu() : openMenu();
+  });
+  menuClose.addEventListener('click', closeMenu);
+  menuOverlay.addEventListener('click', closeMenu);
+  document.querySelectorAll('.nav-link').forEach(a => a.addEventListener('click', closeMenu));
+  document.addEventListener('keydown', e => { if(e.key === 'Escape') closeMenu(); });
+
+  const header = document.getElementById('header');
+  window.addEventListener('scroll', () => {
+    header.classList.toggle('scrolled', window.scrollY > 40);
+  });
+
+  const reveals = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(en => { if(en.isIntersecting){ en.target.classList.add('in'); } });
+  }, {threshold:0.15});
+  reveals.forEach(el => io.observe(el));
+  // Red de seguridad: si por algún motivo el observer no dispara, mostramos todo igual.
+  setTimeout(() => reveals.forEach(el => el.classList.add('in')), 2500);
+</script>
+</body>
+</html>
